@@ -3,4 +3,5 @@ name        = "Flix_Stdlib_Range"
 description = "Testing some ideas about Range new type"
 version     = "0.1.0"
 flix        = "0.44.0"
+license     = "Apache-2.0"
 authors     = ["Lionel Mendes"]
