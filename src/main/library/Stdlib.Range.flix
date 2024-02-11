@@ -39,9 +39,9 @@ mod Stdlib.Range {
         match it {
             case IteratorReversedFactory.List(list)  => let l = ref List.reverse(list) @ rc; List.iterator(rc, deref l)
             case IteratorReversedFactory.Wrapper(t)  => typematch t {
-                                                            case s: String  =>  let length =  String.length(s)-1;
+                                                            case s: String  =>  let length =  String.length(s);
                                                                                 Iterator.range(rc, 0, length) |> 
-                                                                                Iterator.map(i -> unchecked_cast(Char.toString(String.charAt(length - i, s)) as a))
+                                                                                Iterator.map(i -> unchecked_cast(Char.toString(String.charAt(length - i - 1, s)) as a))
                                                             case _: _       =>  Iterator.empty(rc)
                                                         }
             case _                                  => Iterator.empty(rc)
