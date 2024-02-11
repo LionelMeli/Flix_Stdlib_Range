@@ -31,7 +31,7 @@ mod Stdlib.Test.Range {
         let it = IteratorFactory.IteratorFactory({range=r, producer = nextInt32, isToBoundReached = (x,y) -> if (x <= y ) true else false});
 
         let v = MutList.new(rc);
-        foreach (x <- it) { debug(x); MutList.push!(x, v) };
+        foreach (x <- it) {  MutList.push!(x, v) };
         let actual = MutList.toList(v);
         Assert.eq(expected, actual)
     }
@@ -43,7 +43,7 @@ mod Stdlib.Test.Range {
         let it = IteratorFactory.IteratorFactory({range=r, producer = prevInt32, isToBoundReached = (x,y) -> if (x > y ) true else false});
 
         let v = MutList.new(rc);
-        foreach (x <- it) { debug(x); MutList.push!(x, v) };
+        foreach (x <- it) { MutList.push!(x, v) };
         let actual = MutList.toList(v);
         Assert.eq(expected, actual)
     }
@@ -55,7 +55,30 @@ mod Stdlib.Test.Range {
         let it = IteratorFactory.IteratorFactory({range=r, producer = nextInt32ByStep, isToBoundReached = (x,y) -> if (x <= y ) true else false});
 
         let v = MutList.new(rc);
-        foreach (x <- it) { debug(x); MutList.push!(x, v) };
+        foreach (x <- it) { MutList.push!(x, v) };
+        let actual = MutList.toList(v);
+        Assert.eq(expected, actual)
+    }
+
+    @Test
+    def iteratorReversedBuilder01(): Bool = region rc {
+        let expected = List#{9,8,7,6,5,4,3,2,1,0,-1,-2};
+        let initial = List#{-2,-1,0,1,2,3,4,5,6,7,8,9};
+        let it = IteratorReversedFactory.List(initial);
+
+        let v = MutList.new(rc);
+        foreach (x <- it) { MutList.push!(x, v) };
+        let actual = MutList.toList(v);
+        Assert.eq(expected, actual)
+    }
+
+    @Test
+    def iteratorReversedBuilder02(): Bool = region rc {
+        let expected = List#{"o","l","l","e","H"};
+        let it = IteratorReversedFactory.Wrapper("Hello");
+
+        let v = MutList.new(rc);
+        foreach (x <- it) { MutList.push!(x, v) };
         let actual = MutList.toList(v);
         Assert.eq(expected, actual)
     }
