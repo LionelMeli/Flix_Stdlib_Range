@@ -64,4 +64,25 @@ mod Stdlib.Range {
         }
     }
 
+    pub def zeroTo(toBound: Int32): IteratorFactory[Int32] =
+        let r = Range.Range(0, toBound);
+        IteratorFactory.IteratorFactory({range=r, producer= nextInt32ByStep(1), isToBoundReached = predicatToBoundReached})
+    
+    pub def range(fromBound: Int32, toBound: Int32): IteratorFactory[Int32] = 
+        let r = Range.Range(fromBound, toBound);
+        IteratorFactory.IteratorFactory({range=r, producer= nextInt32ByStep(1), isToBoundReached = predicatToBoundReached})
+
+    pub def rangeByStep(fromBound: Int32, toBound: Int32, step: Int32): IteratorFactory[Int32] = 
+        let r = Range.Range(fromBound, toBound);
+        IteratorFactory.IteratorFactory({range=r, producer= nextInt32ByStep(step), isToBoundReached = predicatToBoundReached})
+
+    def nextInt32ByStep(step: Int32): (Unit -> Option[Int32]) -> Option[Int32] =
+        def next(e: Unit -> Option[Int32]): Option[Int32] = match e() {
+            case Some(v)    => Some(v+step)
+            case None       => None
+        };
+        next
+
+    def predicatToBoundReached(x: Int32, toBound: Int32): Bool = if (x <= toBound) true else false
+
 }

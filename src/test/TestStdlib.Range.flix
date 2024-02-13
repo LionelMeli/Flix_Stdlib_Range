@@ -99,4 +99,35 @@ mod Stdlib.Test.Range {
         Assert.eq(expected, actual)
     }
 
+    @Test
+    def zeroTo01(): Bool = region rc {
+        let expected = List#{0,1,2,3,4,5};
+
+        let v = MutList.new(rc);
+        foreach (x <- Stdlib.Range.zeroTo(5)) { MutList.push!(x, v) };
+        let actual = MutList.toList(v);
+        Assert.eq(expected, actual)
+    }
+
+    @Test
+    def range01(): Bool = region rc {
+        let expected = List#{5,6,7,8,9};
+
+        let v = MutList.new(rc);
+        foreach (x <- Stdlib.Range.range(5, 9)) { MutList.push!(x, v) };
+        let actual = MutList.toList(v);
+        Assert.eq(expected, actual)
+    }
+
+    
+    @Test
+    def rangebyStep01(): Bool = region rc {
+        let expected = List#{0,5,10,15,20};
+
+        let v = MutList.new(rc);
+        foreach (x <- Stdlib.Range.rangeByStep(0, 22, 5)) { MutList.push!(x, v) };
+        let actual = MutList.toList(v);
+        Assert.eq(expected, actual)
+    }
+
 }
